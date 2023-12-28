@@ -1,18 +1,16 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { NavigationContainer } from "@react-navigation/native"
-import { colors } from "../global/colors"
+import { Header } from "../components"
 
 import CategoriesScreen from '../screens/CategoriesScreen'
 import ProductDetailScreen from '../screens/ProductDetailScreen'
 import ProductsByCategoryScreen from '../screens/ProductsByCategoryScreen'
-import { Header } from "../components"
 
 const Stack = createNativeStackNavigator()
 
-const Navigator = () => {
+const ShopNavigator = () => {
     return (
-        <NavigationContainer>
             <Stack.Navigator
+                initialRouteName="Categorias"
                 screenOptions={
                     ({ navigation, route }) => ({
                         header: () => <Header title={route.name} navigation={navigation} showBackButton={navigation.canGoBack()}/>
@@ -32,8 +30,7 @@ const Navigator = () => {
                     component={ProductDetailScreen}
                 />
             </Stack.Navigator>
-        </NavigationContainer>
     )
 }
 
-export default Navigator
+export default ShopNavigator

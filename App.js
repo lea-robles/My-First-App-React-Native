@@ -1,12 +1,9 @@
 import { ActivityIndicator, StyleSheet, Text, View, StatusBar} from 'react-native'
 import { useFonts } from 'expo-font'
-import { useState } from 'react'
-import Navigator from './src/navigation/Navigator'
+import TabNavigator from './src/navigation/TabNavigator'
 
-export default function App() {
 
-  const [categorySelected, setCategorySelected] = useState('')
-  const [productSelected, setProductSelected] = useState(null)
+export default function App() {  
 
   const [fontLoaded] = useFonts({
     'Roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -22,18 +19,10 @@ export default function App() {
     </View>
   )
 
-  const onSelectCategory = (category) => {
-    setCategorySelected(category)
-  }
-
-  const onProducSelect = (id) => {
-    setProductSelected(id)
-  }
-
   return (
     <>
     <StatusBar/>
-    <Navigator/>
+    <TabNavigator/>
     </>
   )
 }
