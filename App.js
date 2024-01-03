@@ -1,9 +1,10 @@
-import { ActivityIndicator, StyleSheet, Text, View, StatusBar} from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View, StatusBar } from 'react-native'
 import { useFonts } from 'expo-font'
 import TabNavigator from './src/navigation/TabNavigator'
+import { Provider } from 'react-redux'
+import store from './src/store'
 
-
-export default function App() {  
+export default function App() {
 
   const [fontLoaded] = useFonts({
     'Roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -20,10 +21,10 @@ export default function App() {
   )
 
   return (
-    <>
-    <StatusBar/>
-    <TabNavigator/>
-    </>
+    <Provider store={store}>
+      <StatusBar />
+      <TabNavigator />
+    </Provider>
   )
 }
 

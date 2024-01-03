@@ -6,6 +6,7 @@ import { MaterialCommunityIcons, Fontisto, Ionicons } from '@expo/vector-icons'
 import OrdersStack from '../screens/OrdersScreens'
 import ShopNavigator from './ShopNavigator'
 import CartNavigator from './CartNavigator'
+import OrdersNavigator from './OrdersNavigator'
 
 const Tab = createBottomTabNavigator()
 
@@ -33,7 +34,7 @@ const TabNavigator = () => {
                         )
                     }}
                 />
-                <Tab.Screen name='OrdersStack' component={OrdersStack} 
+                <Tab.Screen name='OrdersStack' component={OrdersNavigator} 
                     options={{
                         tabBarIcon: ({focused}) => (
                             <Ionicons name="ios-newspaper-sharp" size={24} color={focused? colors.secondary : '#ccc'}/>

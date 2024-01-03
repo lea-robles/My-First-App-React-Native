@@ -1,6 +1,7 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import Card from '../Card'
 import { Ionicons } from '@expo/vector-icons'
+import { styles } from './styles'
 
 const OrderItem = ({ order, total }) => {
   return (
@@ -14,7 +15,7 @@ const OrderItem = ({ order, total }) => {
         </Text>
       </View>
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity style={styles.search}>
           <Ionicons name="md-search-outline" size={24} color="black" />
         </TouchableOpacity>
       </View>
@@ -24,10 +25,3 @@ const OrderItem = ({ order, total }) => {
 
 export default OrderItem
 
-const styles = StyleSheet.create({
-  containerOrder: {
-    padding: 20,
-    margin: 5,
-    elevation: 3
-  }
-})
