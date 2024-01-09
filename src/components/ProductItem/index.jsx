@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { Text, Image, TouchableOpacity, View } from 'react-native'
 import Card from '../Card'
 import { colors } from '../../global/colors'
@@ -18,12 +17,12 @@ const ProductItem = ({ product, navigation}) => {
             }
                 } underlayColor={colors.primary}>
                 <View style={styles.containerFlex}>
-                <Text style={styles.Text}>{product.title}</Text>
-                <Image
+                <Text style={styles.Text}>{product.name}</Text>
+                {/* <Image
                     style={styles.productImage}
                     resizeMode='cover'
                     source={{ uri: product.thumbnail}}
-                />
+                /> */}
                 </View>
             </TouchableOpacity>
         </Card>

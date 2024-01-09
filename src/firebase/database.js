@@ -1,0 +1,1 @@
+export const base_url = 'https://my-petshop-b77e9-default-rtdb.firebaseio.com/'
