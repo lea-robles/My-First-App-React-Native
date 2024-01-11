@@ -1,19 +1,25 @@
 import { Text, View, ActivityIndicator, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
-import products_data from '../data/products_data.json'
 import { useEffect, useState } from 'react'
+import { useGetProductByIdQuery } from '../services/shopService'
 
 const ProductDetailScreen = ({ route }) => {
 
   const [productSelect, setProductSelect] = useState({})
   const [isLoading, setIsLoading] = useState(true)
 
-  const productId = route.params
+  const productId = route.params.id
+
+  const { data: product, isFetching } = useGetProductByIdQuery(String(productId))
+
+  console.log('Datos del producto:', product)
 
   useEffect(() => {
-    const productFound = products_data.find(product => product.id === productId)
-    setProductSelect(productFound)
-    setIsLoading(false)
-  }, [productId])
+    if (product) {
+      const productsArray = Object.values(product);
+      setProductSelect(productsArray[0]);
+      setIsLoading(false);
+    }
+   }, [product]);
 
   const renderItem = ({ item }) => (
     <View>
@@ -21,11 +27,11 @@ const ProductDetailScreen = ({ route }) => {
         <Image
           style={styles.productImage}
           resizeMode='cover'
-          source={{ uri: item.images[2] }}
+          source={{ uri: item.rutaImagen }}
         />
       </View>
       <View style={styles.containerText}>
-        <Text style={styles.textTitle}>{item.title}</Text>
+        <Text style={styles.textTitle}>{item.name}</Text>
         <Text style={styles.textPrice}>${item.price}</Text>
         <Text style={styles.textDescription}>{item.description}</Text>
         <TouchableOpacity style={styles.buttonBuy}>
@@ -38,7 +44,7 @@ const ProductDetailScreen = ({ route }) => {
   return (
     <>
       {
-        isLoading
+        isLoading || isFetching
           ?
           <View>
             <ActivityIndicator />
@@ -48,7 +54,7 @@ const ProductDetailScreen = ({ route }) => {
           <View>
             <FlatList
               data={[productSelect]}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item) => String(item.id)}
               renderItem={renderItem}
             />
           </View>
@@ -74,6 +80,7 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     fontFamily: 'Roboto-bold',
+    textTransform: 'capitalize',
     fontSize: 35,
     margin: 5
   },

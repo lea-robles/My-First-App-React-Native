@@ -50,7 +50,6 @@ const ProductsByCategoryScreen = ({ navigation, route }) => {
         keyExtractor={item => item.id}
         ListEmptyComponent={<Text>No hay productos para mostrar</Text>}
       />
-      {console.log('productos por categoria: ', productsByCategory)}
       </>
     }
     </>

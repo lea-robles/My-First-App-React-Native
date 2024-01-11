@@ -13,16 +13,16 @@ const ProductItem = ({ product, navigation}) => {
         <Card style={styles.container}>
             <TouchableOpacity onPress={() =>{
                 dispatch(setProductIdSelected(product.id)) 
-                navigation.navigate('Detalle del producto', product.id)
+                navigation.navigate('Detalle del producto', { id: product.id })
             }
                 } underlayColor={colors.primary}>
                 <View style={styles.containerFlex}>
                 <Text style={styles.Text}>{product.name}</Text>
-                {/* <Image
+                <Image
                     style={styles.productImage}
                     resizeMode='cover'
-                    source={{ uri: product.thumbnail}}
-                /> */}
+                    source={{ uri: product.rutaImagen}}
+                />
                 </View>
             </TouchableOpacity>
         </Card>

@@ -13,7 +13,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     Text: {
-        fontFamily: 'Roboto-regular'
+        fontFamily: 'Roboto-regular',
+        textTransform: 'capitalize',
     },
     productImage: {
         width: 50,
