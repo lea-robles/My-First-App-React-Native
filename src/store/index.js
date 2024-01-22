@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit"
 import shopReducer from "../features/shopSlice" 
-//shopReducer es shopSlice renombrado para que coincidan los nomnbres
+//shopReducer es shopSlice lo mismo con cartReducer renombrado para que coincidan los nomnbres
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { shopApi } from "../services/shopService"
+import cartReducer from "../features/cartSlice "
 
 const store = configureStore({
     reducer: {
         shopReducer,
+        cartReducer,
         [shopApi.reducerPath] : shopApi.reducer
     },
     middleware: (getDefaultMiddleware) =>

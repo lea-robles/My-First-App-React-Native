@@ -1,6 +1,8 @@
 import { Text, View, ActivityIndicator, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useGetProductByIdQuery } from '../services/shopService'
+import { useDispatch } from 'react-redux'
+import { addItem } from '../features/cartSlice '
 
 const ProductDetailScreen = ({ route }) => {
 
@@ -8,9 +10,10 @@ const ProductDetailScreen = ({ route }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   const productId = route.params.id
-
+  
   const { data: product, isFetching } = useGetProductByIdQuery(String(productId))
-
+  
+  const dispatch = useDispatch()
   console.log('Datos del producto:', product)
 
   useEffect(() => {
@@ -19,7 +22,11 @@ const ProductDetailScreen = ({ route }) => {
       setProductSelect(productsArray[0]);
       setIsLoading(false);
     }
-   }, [product]);
+  }, [product])
+  
+  const addToCart = () => {
+    dispatch(addItem({...productSelect, quantity: 1}))
+  }
 
   const renderItem = ({ item }) => (
     <View>
@@ -34,12 +41,13 @@ const ProductDetailScreen = ({ route }) => {
         <Text style={styles.textTitle}>{item.name}</Text>
         <Text style={styles.textPrice}>${item.price}</Text>
         <Text style={styles.textDescription}>{item.description}</Text>
-        <TouchableOpacity style={styles.buttonBuy}>
-          <Text style={styles.textButton}>Comprar</Text>
+        <TouchableOpacity style={styles.buttonBuy} onPress={addToCart}>
+          <Text style={styles.textButton}>Añadir al carrito</Text>
         </TouchableOpacity>
       </View>
     </View>
   )
+
 
   return (
     <>

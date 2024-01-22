@@ -1,18 +1,22 @@
 import { FlatList, StyleSheet, TouchableOpacity, View, Text } from 'react-native'
-import cartData from '../data/cart_data.json'
 import CartItem from '../components/CartItem'
-import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {usePostOrderMutation} from '../services/shopService'
+import { clearCart } from '../features/cartSlice '
 
 const CartScreen = () => {
 
-  const [total, setTotal] = useState()
+  const dispatch = useDispatch()
 
-  useEffect(() => {
-      const totalCount = cartData.reduce((accumulator, item) => (
-        accumulator+= item.price*item.quantity
-      ), 0)
-      setTotal(totalCount)
-  }, [])
+  const cartItems = useSelector(state => state.cartReducer.items)
+  const total = useSelector(state => state.cartReducer.total)
+
+  const [post, result] = usePostOrderMutation()
+
+  const confirmCart = ()=> {
+    post({total, cartItems, user: 'Leandro Robles'})
+    dispatch(clearCart(cartItems))
+  }
 
   const renderCart = ({ item }) => (
     <CartItem item={item} />
@@ -21,13 +25,13 @@ const CartScreen = () => {
   return (
     <View>
       <FlatList
-        data={cartData}
+        data={cartItems}
         renderItem={renderCart}
         keyExtractor={item => item.id}
       />
       <View style={styles.confirmView}>
         <Text style={styles.total}>Total: ${total} </Text>
-        <TouchableOpacity style={styles.confirmButton} onPress={console.log('Button confirm press')}>
+        <TouchableOpacity style={styles.confirmButton} onPress={confirmCart}>
           <Text style={styles.confirmText}>Confirmar</Text>
         </TouchableOpacity>
       </View>
