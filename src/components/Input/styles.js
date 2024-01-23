@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.primaryBack,
         padding: 7,
         width: 260,
-        color: colors.secondary,
+        color: 'black',
         borderWidth: 1,
         borderRadius: 8,
         margin: 8

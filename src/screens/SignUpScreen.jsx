@@ -1,21 +1,37 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { useState } from 'react'
 import Input from '../components/Input'
 import { colors } from '../global/colors'
+import { useSignUpMutation } from '../services/authService'
 
 const SignUpScreen = ({navigation}) => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [triggerSignUp, result] = useSignUpMutation()
+
+  const onSubmit = () => {
+    triggerSignUp({email, password})
+    console.log('result: ',result)
+  }
+
   return (
     <View style={styles.container}>
       <Input
         label= "Email:"
+        onChange={setEmail}
       />
       <Input
         label= "Contraseña:"
-      />
+        onChange={setPassword}
+        isSecureEntry={true}
+        />
       <Input
         label= "Repetir Contraseña"
+        onChange={setConfirmPassword}
+        isSecureEntry={true}
       />
-      <TouchableOpacity style={styles.button} onPress={null}>
+      <TouchableOpacity style={styles.button} onPress={onSubmit}>
         <Text style={styles.buttonText}>Registrarme</Text>
       </TouchableOpacity>
       <View style={styles.askContainer}>

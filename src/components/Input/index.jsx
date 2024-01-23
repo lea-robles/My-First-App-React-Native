@@ -2,11 +2,12 @@ import { useState } from "react"
 import { Text, View, TextInput } from "react-native"
 import { styles } from './styles'
 
-const Input = ({ label, isSecureEntry = false, error}) => {
+const Input = ({ label, isSecureEntry = false, error = '', onChange}) => {
     const [input, setInput] = useState()
 
     const handleChangeText = (text) => {
         setInput(text)
+        onChange(text)
     }
 
     return (
