@@ -1,18 +1,31 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import {useState} from 'react'
 import Input from '../components/Input'
+import { useLogInMutation } from '../services/authService'
 import { colors } from '../global/colors'
 
 const LogInScreen = ({navigation}) => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [triggerLogIn, result] = useLogInMutation()
+
+  const onSubmit = () => {
+    triggerLogIn({email, password})
+    console.log('result: ',result)
+  }
+
   return (
     <View style={styles.container}>
       <Input
         label= "Email:"
+        onChange={setEmail}
       />
       <Input
         label= "Contraseña:"
+        onChange={setPassword}
+        isSecureEntry={true}
       />
-      <TouchableOpacity style={styles.button} onPress={null}>
+      <TouchableOpacity style={styles.button} onPress={onSubmit}>
         <Text style={styles.buttonText}>Ingresar</Text>
       </TouchableOpacity>
       <View style={styles.askContainer}>
