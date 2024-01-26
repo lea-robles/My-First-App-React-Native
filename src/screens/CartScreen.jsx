@@ -14,7 +14,7 @@ const CartScreen = () => {
   const [post, result] = usePostOrderMutation()
 
   const confirmCart = ()=> {
-    post({total, cartItems, user: 'Leandro Robles'})
+    post({total, cartItems, user: 'Leandro Robles', updateAt: Date.now().toLocaleString()})
     dispatch(clearCart(cartItems))
   }
 
