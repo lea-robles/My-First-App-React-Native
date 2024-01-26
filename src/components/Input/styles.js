@@ -4,7 +4,7 @@ import { colors } from "../../global/colors"
 export const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
-        width: '50'
+        maxWidth: '70%'
     },
     input: {
         borderColor: colors.primary,
@@ -14,11 +14,13 @@ export const styles = StyleSheet.create({
         color: 'black',
         borderWidth: 1,
         borderRadius: 8,
-        margin: 8
+        margin: 8,
     },
     errorMessage: {
         color: colors.secondary,
-        padding: 8
+        padding: 8,
+        textAlign: 'center',
+        flexWrap: 'wrap'
     },
     label: {
         color: colors.secondary

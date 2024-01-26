@@ -1,37 +1,74 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import {useState} from 'react'
+import { useEffect, useState } from 'react'
 import Input from '../components/Input'
 import { useLogInMutation } from '../services/authService'
 import { colors } from '../global/colors'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../features/authSlice'
+import { signUpReports } from '../../validations/signUpReports'
 
-const LogInScreen = ({navigation}) => {
+const LogInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
   const [triggerLogIn, result] = useLogInMutation()
+  const dispatch = useDispatch()
 
   const onSubmit = () => {
-    triggerLogIn({email, password})
-    console.log('result: ',result)
+    setEmailError('')
+    setPasswordError('')
+    try {
+      signUpReports.validateSync({ email, password }, { abortEarly: false })
+    } catch (error) {
+      //Al hacer map de error.errors en cada 'case'hace console.log del error correspondiente
+      error.errors.map(e => {
+        console.log(Object.keys(e)[0])
+        const customError = Object.values(e)[0]
+        switch (Object.keys(e)[0]) {
+          case 'empty_email':
+            setEmailError(customError)
+          case 'invalid_email':
+            setEmailError(customError)
+          case 'empty_password':
+            setPasswordError(customError)
+          case 'invalid_password':
+            setPasswordError(customError)
+          default:
+            break
+        }
+
+      })
+    }
+    triggerLogIn({ email, password })
+    console.log('result: ', result)
   }
+
+
+  useEffect(() => {
+    result.data && dispatch(setUser(result.data))
+  }, [result])
 
   return (
     <View style={styles.container}>
       <Input
-        label= "Email:"
+        label="Email:"
         onChange={setEmail}
+        error={emailError}
       />
       <Input
-        label= "Contraseña:"
+        label="Contraseña:"
         onChange={setPassword}
         isSecureEntry={true}
+        error={passwordError}
       />
       <TouchableOpacity style={styles.button} onPress={onSubmit}>
         <Text style={styles.buttonText}>Ingresar</Text>
       </TouchableOpacity>
       <View style={styles.askContainer}>
         <Text style={styles.askText}>¿No tenes una cuenta?</Text>
-        <TouchableOpacity onPress={() => {navigation.navigate("SignUp")}}>
-            <Text style={styles.logInText}>Crear mi cuenta</Text>
+        <TouchableOpacity onPress={() => { navigation.navigate("SignUp") }}>
+          <Text style={styles.logInText}>Crear mi cuenta</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -62,7 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     textDecorationLine: 'underline'
   },
-  askText:{
+  askText: {
     color: colors.secondary,
     fontSize: 13
   },

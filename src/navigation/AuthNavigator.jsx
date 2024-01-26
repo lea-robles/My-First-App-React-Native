@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator()
 const AuthNavigator = () => {
     return (
         <Stack.Navigator
-            initialRouteName='SignUp'
+            initialRouteName='LogIn'
             screenOptions={
                 ({ navigation, route }) => ({
                     header: () => <Header title={route.name} navigation={navigation} showBackButton={navigation.canGoBack()}/>
