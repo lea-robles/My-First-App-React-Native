@@ -12,7 +12,7 @@ const AuthNavigator = () => {
             initialRouteName='LogIn'
             screenOptions={
                 ({ navigation, route }) => ({
-                    header: () => <Header title={route.name} navigation={navigation} showBackButton={navigation.canGoBack()}/>
+                    header: () => <Header title={route.name} navigation={navigation} showBackButton={navigation.canGoBack()} showHomeButton={false}/>
                 })
             }
         >

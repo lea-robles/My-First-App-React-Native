@@ -1,13 +1,14 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { Header } from "../components"
-import CartScreen from "../screens/CartScreen"
+import ProfileScreen from "../screens/ProfileScreen"
+import ImageSelectorScreen from "../screens/ImageSelectorScreen"
 
 const Stack = createNativeStackNavigator()
 
-const CartNavigator = () => {
+const ProfileNavigator = () => {
     return (
         <Stack.Navigator
-                initialRouteName="Carrito"
+                initialRouteName="Perfil"
                 screenOptions={
                     ({ navigation, route }) => ({
                         header: () => <Header title={route.name} navigation={navigation} showBackButton={navigation.canGoBack()} showHomeButton={true}/>
@@ -15,11 +16,15 @@ const CartNavigator = () => {
                 }
             >
                 <Stack.Screen
-                    name="Carrito"
-                    component={CartScreen}
+                    name="Perfil"
+                    component={ProfileScreen}
+                />
+                <Stack.Screen
+                    name="Seleccionar imagen"
+                    component={ImageSelectorScreen}
                 />
             </Stack.Navigator>
     )
 }
 
-export default CartNavigator
+export default ProfileNavigator

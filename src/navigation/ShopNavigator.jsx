@@ -13,7 +13,7 @@ const ShopNavigator = () => {
                 initialRouteName="Categorias"
                 screenOptions={
                     ({ navigation, route }) => ({
-                        header: () => <Header title={route.name} navigation={navigation} showBackButton={navigation.canGoBack()}/>
+                        header: () => <Header title={route.name} navigation={navigation} showBackButton={navigation.canGoBack()} showHomeButton={route.name !== 'Categorias'}/>
                     })
                 }
             >

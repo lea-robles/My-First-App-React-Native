@@ -11,7 +11,7 @@ const OrdersNavigator = () => {
             initialRouteName='Ordenes'
             screenOptions={
                 ({ navigation, route }) => ({
-                    header: () => <Header title={route.name} navigation={navigation} showBackButton={navigation.canGoBack()} />
+                    header: () => <Header title={route.name} navigation={navigation} showBackButton={navigation.canGoBack()} showHomeButton={true}/>
                 })
             }
         >
