@@ -1,14 +1,14 @@
 import { Image, Pressable, StyleSheet, View, Text } from 'react-native'
 import { colors } from '../global/colors'
-import { useState } from 'react'
 import user_data from '../data/user_data.json'
+import { useSelector } from 'react-redux'
 
-const ProfileScreen = ({navigation}) => {
-    const [image, setImage] = useState(null)
+const ProfileScreen = ({ navigation }) => {
+    const image = useSelector(state => state.authReducer.profilePicture)
 
     return (
-        <View style={styles.container}>
-            <View>
+        <>
+            <View style={styles.imageContainer}>
                 <Pressable onPress={() => navigation.navigate('Seleccionar imagen')}
                     style={({ pressed }) => [
                         {
@@ -39,37 +39,39 @@ const ProfileScreen = ({navigation}) => {
                 <Text style={styles.userData}>Dirección: {user_data.address}</Text>
                 <Text style={styles.userData}>{user_data.city}</Text>
             </View>
-        </View>
+        </>
     )
 }
 
 export default ProfileScreen
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        margin: 20,
-        gap: 20,
-        justifyContent:'space-around'
-    },
     profilePicture: {
-        width: 120,
-        height: 120,
-        borderRadius: 100
+        width: 300,
+        height: 300,
+        borderRadius: 300,
+        borderColor: 'black',
+        borderWidth: 3,
     },
     userTitle: {
         fontFamily: 'Roboto-bold',
-        fontSize: 25,
+        fontSize: 35,
     },
     userDataContainer: {
-        marginTop: 10
+        marginTop: 70,
+        alignItems: 'flex-start',
+        marginHorizontal: 20
     },
     userData: {
         fontFamily: 'Roboto-regular',
-        fontSize: 15
+        fontSize: 20
     },
     imgContainer: {
-        borderRadius: 100
+        borderRadius: 200
+    },
+    imageContainer: {
+        margin: 10,
+        alignItems: 'center',
+        marginTop: 40
     }
 })
