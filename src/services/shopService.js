@@ -1,10 +1,10 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const base_url = process.env.EXPO_PUBLIC_BASE_URL
 
 export const shopApi = createApi({
     reducerPath: "shopApi",
-    baseQuery: fetchBaseQuery({baseUrl: base_url}),
+    baseQuery: fetchBaseQuery({ baseUrl: base_url }),
     endpoints: (builder) => ({
         getCategories: builder.query({
             query: () => "categories.json"
@@ -19,13 +19,33 @@ export const shopApi = createApi({
             query: (id) => `products.json?orderBy="id"&equalTo=${id}`
         }),
         postOrder: builder.mutation({
-            query: ({...order}) => ({
+            query: ({ ...order }) => ({
                 url: 'orders.json',
                 method: 'POST',
                 body: order
             })
-        })
+        }),
+        putProfilePicture: builder.mutation({
+            query: ({ image, localId }) => ({
+                url: `profilePictures/${localId}.json`,
+                method: 'PUT',
+                body: {
+                    image: image
+                }
+            })
+        }),
+        getProfilePicture: builder.query({
+            query: (localId) => `profilePictures/${localId}.json`
+        }),
     })
 })
 
-export const {useGetCategoriesQuery, useGetProductsQuery, useGetProductsByCategoryQuery, useGetProductByIdQuery, usePostOrderMutation} = shopApi
+export const { 
+    useGetCategoriesQuery, 
+    useGetProductsQuery, 
+    useGetProductsByCategoryQuery,
+    useGetProductByIdQuery,
+    usePostOrderMutation,
+    usePutProfilePictureMutation,
+    useGetProfilePictureQuery
+} = shopApi

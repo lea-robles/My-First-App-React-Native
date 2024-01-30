@@ -3,12 +3,14 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { colors } from '../global/colors'
 import * as ImagePicker from 'expo-image-picker'
-import { useDispatch } from 'react-redux'
 import { setProfilePicture } from '../features/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { usePutProfilePictureMutation } from '../services/shopService'
 
-const ImageSelectorScreen = ({navigation}) => {
+const ImageSelectorScreen = ({ navigation }) => {
   const [image, setImage] = useState('')
   const dispatch = useDispatch()
+  const localId = useSelector(state => state.authReducer.localId)
 
   const verifyCameraPermissions = async () => {
     const { granted } = await ImagePicker.requestCameraPermissionsAsync()
@@ -18,7 +20,7 @@ const ImageSelectorScreen = ({navigation}) => {
     console.log("Permisos otorgados")
     return true
   }
-  
+
   const pickImage = async () => {
     const isCameraOk = await verifyCameraPermissions()
     if (isCameraOk) {
@@ -36,9 +38,12 @@ const ImageSelectorScreen = ({navigation}) => {
       console.log("No se han otorgado permisos para usar la cámara")
     }
   }
-  
+
+  const [triggerSaveProfilePic, result] = usePutProfilePictureMutation()
+
   const confirmImage = () => {
     dispatch(setProfilePicture(image))
+    triggerSaveProfilePic({ image, localId })
     navigation.navigate('Perfil')
   }
   return (
@@ -55,7 +60,7 @@ const ImageSelectorScreen = ({navigation}) => {
               <TouchableOpacity style={styles.button} onPress={pickImage}>
                 <Text style={styles.textButton}>Tomar otra foto</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{...styles.button, ...styles.buttonConfirm}} onPress={confirmImage}>
+              <TouchableOpacity style={{ ...styles.button, ...styles.buttonConfirm }} onPress={confirmImage}>
                 <Text style={styles.textButton}>Confirmar</Text>
               </TouchableOpacity>
             </View>
@@ -93,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 30
   },
-  buttonConfirm:{
+  buttonConfirm: {
     backgroundColor: '#4FD586',
     marginHorizontal: 10,
     paddingHorizontal: 46,
@@ -111,9 +116,9 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     borderRadius: 300,
-},
-containerImage:{
-  alignItems: 'center',
-  marginTop: 30
-}
+  },
+  containerImage: {
+    alignItems: 'center',
+    marginTop: 30
+  }
 })
