@@ -62,5 +62,5 @@ const styles = StyleSheet.create({
       marginTop: 25,
       fontFamily: 'Roboto-regular',
       fontSize: 16
-  }
+  },
 })
