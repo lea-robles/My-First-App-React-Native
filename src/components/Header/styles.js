@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     headerTitle: {
       color: colors.secondary,
       fontFamily: "Roboto-bold",
-      fontSize: 25
+      fontSize: 30
     },
     home: {
     color: colors.secondary,

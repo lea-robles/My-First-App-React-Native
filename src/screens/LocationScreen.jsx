@@ -1,11 +1,12 @@
-import { Text, View } from 'react-native'
+import { Text, View, ActivityIndicator, StyleSheet} from 'react-native'
 import { useState, useEffect } from 'react'
 import * as Location from 'expo-location'
-import { styles } from './styles'
+import { MapPreview } from '../components'
 
-const LocationSelector = () => {
-  const [location, setLocation] = useState()
-  const [error, setError] = useState()
+
+const LocationScreen = () => {
+  const [location, setLocation] = useState('')
+  const [error, setError] = useState('')
 
   useEffect(() => {
     (async () => {
@@ -29,9 +30,10 @@ const LocationSelector = () => {
           <Text style={styles.textDate}>
             Latitud: {location.latitude} || longitud: {location.longitude}
           </Text>
+          <MapPreview location={location}/>
           </>
           :
-          <View>
+          <View style={styles.spinnerContainer}>
             <ActivityIndicator />
             <Text>Cargando...</Text>
           </View>
@@ -40,5 +42,25 @@ const LocationSelector = () => {
   )
 }
 
-export default LocationSelector
+export default LocationScreen
 
+const styles = StyleSheet.create({
+  container: {
+      alignItems: 'center',
+      marginTop: 20
+  },
+  spinnerContainer: {
+      alignItems: 'center',
+      marginTop: 200
+  },
+  textTitle: {
+      marginTop: 10,
+      fontFamily: 'Roboto-bold',
+      fontSize: 25
+  },
+  textDate: {
+      marginTop: 25,
+      fontFamily: 'Roboto-regular',
+      fontSize: 16
+  }
+})
