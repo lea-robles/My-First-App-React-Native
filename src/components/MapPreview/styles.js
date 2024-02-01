@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     mapContainer:{
         justifyContent: 'center',
         alignItems:'center',
-        marginTop: '20%'
+        marginTop: '15%'
     },
     mapImage:{
         width: 350,
