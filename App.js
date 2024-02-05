@@ -3,8 +3,13 @@ import { useFonts } from 'expo-font'
 import { Provider } from 'react-redux'
 import store from './src/store'
 import MainNavigator from './src/navigation/MainNavigator'
+import { init } from './src/db'
 
 export default function App() {
+
+  init()
+    .then(() => console.log('DB en correcto funcionamiento'))
+    .catch((error) => console.log('DB error:', error))
 
   const [fontLoaded] = useFonts({
     'Roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),

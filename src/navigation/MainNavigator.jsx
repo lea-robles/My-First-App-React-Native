@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { useGetProfilePictureQuery } from "../services/shopService"
 import { setProfilePicture } from "../features/authSlice"
+import { fetchSessions } from "../db"
 
 const MainNavigator = () => {
     const dispatch = useDispatch()
@@ -17,6 +18,18 @@ const MainNavigator = () => {
             dispatch(setProfilePicture(data.image))
         }
     },[data])
+
+    useEffect(() => {
+        (async () => {
+            try{
+                const sessionCall = await fetchSessions(localId)
+                console.log('Session: ', sessionCall)
+            }catch(message){
+                console.log('Error sessionCall: ', error.message)
+            }
+        })()
+    },[])
+
     return (
         <NavigationContainer>
             {user && !isLoading ? <TabNavigator/> : <AuthNavigator/>}

@@ -6,6 +6,7 @@ import { colors } from '../global/colors'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../features/authSlice'
 import { signUpReports } from '../../validations/signUpReports'
+import { insertSession } from '../db'
 
 const LogInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('')
@@ -46,7 +47,16 @@ const LogInScreen = ({ navigation }) => {
 
 
   useEffect(() => {
-    result.data && dispatch(setUser(result.data))
+    if (result.data) {
+      dispatch(setUser(result.data))
+      insertSession({
+        localId: result.data.localId,
+        email: result.data.email,
+        token: result.data.token
+      })
+      .then(result => console.log('Usuario insertado: ', result))
+      .catch(error => console.log('Error, usuario no insertado: ', error))
+    }
   }, [result])
 
   return (
