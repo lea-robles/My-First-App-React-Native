@@ -52,7 +52,7 @@ const LogInScreen = ({ navigation }) => {
       insertSession({
         localId: result.data.localId,
         email: result.data.email,
-        token: result.data.token
+        token: result.data.idToken
       })
       .then(result => console.log('Usuario insertado: ', result))
       .catch(error => console.log('Error, usuario no insertado: ', error))

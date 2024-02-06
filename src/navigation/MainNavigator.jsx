@@ -9,30 +9,35 @@ import { fetchSessions } from "../db"
 
 const MainNavigator = () => {
     const dispatch = useDispatch()
-    const user = useSelector(state => state.authReducer.localId)
-  
-    const {data, error, isLoading} = useGetProfilePictureQuery(user)
+    const userLogged = useSelector(state => state.authReducer.localId)
+
+    const { data, error, isLoading } = useGetProfilePictureQuery(userLogged)
 
     useEffect(() => {
-        if(data){
+        if (data) {
             dispatch(setProfilePicture(data.image))
         }
-    },[data])
+    }, [data])
 
     useEffect(() => {
         (async () => {
-            try{
-                const sessionCall = await fetchSessions(localId)
+            try {
+                const sessionCall = await fetchSessions(userLogged)
                 console.log('Session: ', sessionCall)
-            }catch(message){
+                if (sessionCall?.rows.length) {
+                    console.log("Se han encontrado datos de usuario")
+                    const user = session.rows._array[0]
+                    dispatch(setUser(user))
+                }
+            } catch (error) {
                 console.log('Error sessionCall: ', error.message)
             }
         })()
-    },[])
+    }, [])
 
     return (
         <NavigationContainer>
-            {user && !isLoading ? <TabNavigator/> : <AuthNavigator/>}
+            {userLogged && !isLoading ? <TabNavigator /> : <AuthNavigator />}
         </NavigationContainer >
     )
 }

@@ -1,11 +1,18 @@
-import { Image, Pressable, StyleSheet, View, Text } from 'react-native'
+import { Image, Pressable, StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { colors } from '../global/colors'
 import user_data from '../data/user_data.json'
-import { useSelector } from 'react-redux'
-import { LocationSelector } from '../components'
+import { useDispatch, useSelector } from 'react-redux'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { clearUser } from '../features/authSlice'
 
 const ProfileScreen = ({ navigation }) => {
     const image = useSelector(state => state.authReducer.profilePicture)
+    const email = useSelector(state => state.authReducer.user)
+    const dispatch = useDispatch()
+
+    const onLogOut = () => {
+        dispatch(clearUser())
+    }
 
     return (
         <>
@@ -40,6 +47,14 @@ const ProfileScreen = ({ navigation }) => {
                 <Text style={styles.userData}>Dirección: {user_data.address}</Text>
                 <Text style={styles.userData}>{user_data.city}</Text>
             </View>
+            {
+                email
+                &&
+                <TouchableOpacity style={styles.logOutContainer} onPress={onLogOut}>
+                    <MaterialCommunityIcons name="logout" size={30} color="black" />
+                    <Text style={styles.logOutText}>Cerrar Session</Text>
+                </TouchableOpacity>
+            }
         </>
     )
 }
@@ -48,9 +63,9 @@ export default ProfileScreen
 
 const styles = StyleSheet.create({
     profilePicture: {
-        width: 300,
-        height: 300,
-        borderRadius: 300,
+        width: 250,
+        height: 250,
+        borderRadius: 200,
         borderColor: 'black',
         borderWidth: 3,
     },
@@ -59,7 +74,7 @@ const styles = StyleSheet.create({
         fontSize: 35,
     },
     userDataContainer: {
-        marginTop: 70,
+        marginTop: 50,
         alignItems: 'flex-start',
         marginHorizontal: 20
     },
@@ -74,5 +89,14 @@ const styles = StyleSheet.create({
         margin: 10,
         alignItems: 'center',
         marginTop: 40
+    },
+    logOutContainer: {
+        flexDirection: 'row',
+        marginTop: 40,
+        justifyContent: 'center'
+    },
+    logOutText: {
+        fontSize: 24,
+        fontFamily: 'Roboto-bold'
     }
 })

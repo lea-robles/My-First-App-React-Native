@@ -28,11 +28,11 @@ export const insertSession = ({localId, email, token }) => {
     return promise
 }
 
-export const fetchSessions = () => {
+export const fetchSessions = ({user}) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction(tx => {
-            tx.executeSql('SELECT * FROM sessions WHERE localId = ?'
-            [localId],
+            tx.executeSql('SELECT * FROM sessions WHERE localId = ?',
+            [user],
             (_, result)=>resolve(result),
             (_,error) => reject(error)
             )
