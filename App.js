@@ -28,7 +28,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <StatusBar />
-      <MainNavigator/>
+      <MainNavigator />
     </Provider>
   )
 }

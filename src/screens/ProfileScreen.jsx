@@ -4,14 +4,17 @@ import user_data from '../data/user_data.json'
 import { useDispatch, useSelector } from 'react-redux'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { clearUser } from '../features/authSlice'
+import { clearSessions } from '../db'
 
 const ProfileScreen = ({ navigation }) => {
     const image = useSelector(state => state.authReducer.profilePicture)
     const email = useSelector(state => state.authReducer.user)
     const dispatch = useDispatch()
+    const localId = useSelector(state => state.authReducer.localId)
 
     const onLogOut = () => {
         dispatch(clearUser())
+        clearSessions(localId)
     }
 
     return (

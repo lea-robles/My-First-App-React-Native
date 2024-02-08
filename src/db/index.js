@@ -28,13 +28,26 @@ export const insertSession = ({localId, email, token }) => {
     return promise
 }
 
-export const fetchSessions = ({user}) => {
+export const fetchSessions = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction(tx => {
-            tx.executeSql('SELECT * FROM sessions WHERE localId = ?',
-            [user],
-            (_, result)=>resolve(result),
-            (_,error) => reject(error)
+            tx.executeSql('SELECT * FROM sessions',
+            [],
+            (_, result) => resolve(result),
+            (_, error) => reject(error)
+            )
+        })
+    })
+    return promise
+}
+
+export const clearSessions = (localId) => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql('DELETE FROM sessions WHERE localId = ?',
+            [localId],
+            (_, result) => resolve(result),
+            (_, error) => reject(error)
             )
         })
     })

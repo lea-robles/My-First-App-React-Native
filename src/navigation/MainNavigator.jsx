@@ -4,7 +4,7 @@ import AuthNavigator from "./AuthNavigator"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { useGetProfilePictureQuery } from "../services/shopService"
-import { setProfilePicture } from "../features/authSlice"
+import { setProfilePicture, setUser} from "../features/authSlice"
 import { fetchSessions } from "../db"
 
 const MainNavigator = () => {
@@ -19,18 +19,21 @@ const MainNavigator = () => {
         }
     }, [data])
 
+    
     useEffect(() => {
         (async () => {
             try {
-                const sessionCall = await fetchSessions(userLogged)
+                const sessionCall = await fetchSessions()
                 console.log('Session: ', sessionCall)
                 if (sessionCall?.rows.length) {
                     console.log("Se han encontrado datos de usuario")
-                    const user = session.rows._array[0]
+                    const user = sessionCall.rows._array[0]
                     dispatch(setUser(user))
+                    console.log("Console log de user ", user)
                 }
             } catch (error) {
                 console.log('Error sessionCall: ', error.message)
+                console.log('userLogged: ',userLogged)
             }
         })()
     }, [])
