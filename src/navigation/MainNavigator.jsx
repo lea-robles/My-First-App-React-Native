@@ -24,16 +24,12 @@ const MainNavigator = () => {
         (async () => {
             try {
                 const sessionCall = await fetchSessions()
-                console.log('Session: ', sessionCall)
                 if (sessionCall?.rows.length) {
-                    console.log("Se han encontrado datos de usuario")
                     const user = sessionCall.rows._array[0]
                     dispatch(setUser(user))
-                    console.log("Console log de user ", user)
                 }
             } catch (error) {
                 console.log('Error sessionCall: ', error.message)
-                console.log('userLogged: ',userLogged)
             }
         })()
     }, [])

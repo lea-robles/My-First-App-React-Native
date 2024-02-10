@@ -6,16 +6,35 @@ import * as ImagePicker from 'expo-image-picker'
 import { setProfilePicture } from '../features/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { usePutProfilePictureMutation } from '../services/shopService'
+import Toast from 'react-native-toast-message'
+
 
 const ImageSelectorScreen = ({ navigation }) => {
   const dispatch = useDispatch()
   const localId = useSelector(state => state.authReducer.localId)
   const imageFromRedux = useSelector(state => state.authReducer.profilePicture)
   const [image, setImage] = useState(imageFromRedux || '')
-  
+
+  const showToast = (type, message) => {
+    Toast.show({
+      type: type,
+      position: 'bottom',
+      text1: message,
+      visibilityTime:  4000,
+      autoHide: true,
+      topOffset:  30,
+      bottomOffset:  40,
+      text1Style: {
+        textAlign: 'center',
+        fontSize: 15
+      }
+    })
+  }
+
   const verifyCameraPermissions = async () => {
     const { granted } = await ImagePicker.requestCameraPermissionsAsync()
     if (!granted) {
+      showToast('error', 'No se han otorgado permisos para usar la cámara')
       return false
     }
     return true
@@ -35,7 +54,7 @@ const ImageSelectorScreen = ({ navigation }) => {
         setImage(`data:image/jpeg;base64,${result.assets[0].base64}`)
       }
     } else {
-      console.log("No se han otorgado permisos para usar la cámara")
+      showToast('error', 'No se han otorgado permisos para usar la cámara')
     }
   }
 
@@ -44,13 +63,26 @@ const ImageSelectorScreen = ({ navigation }) => {
   const confirmImage = () => {
     dispatch(setProfilePicture(image))
     triggerSaveProfilePic({ image, localId })
-    navigation.navigate('Perfil')
+      .then(() => {
+        showToast('success', 'Foto guardada!')
+        setTimeout(() => {
+          navigation.navigate('Perfil');
+        },  1500)
+      })
+      .catch((error) => {
+        showToast('error', 'Hubo un problema al guardar la foto');
+        console.error(error)
+      });
   }
+
+
   return (
+    <>
+    <Toast ref={(ref) => Toast.setRef(ref)} />
     <View style={styles.container}>
       {
         image ?
-          <View style={styles.containerImage}>
+        <View style={styles.containerImage}>
             <Image
               source={{ uri: image }}
               style={styles.image}
@@ -74,6 +106,7 @@ const ImageSelectorScreen = ({ navigation }) => {
           </View>
       }
     </View>
+    </>
   )
 }
 
