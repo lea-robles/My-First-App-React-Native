@@ -13,6 +13,7 @@ const LogInScreen = ({ navigation }) => {
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const [gralError, setGralError] = useState('')
   const [triggerLogIn, result] = useLogInMutation()
   const dispatch = useDispatch()
 
@@ -42,6 +43,10 @@ const LogInScreen = ({ navigation }) => {
     }
     triggerLogIn({ email, password })
     console.log('result: ', result)
+    if(result.status == 'rejected') {
+      console.log('Email o contrasenña incorrecta')
+      setGralError('Email o contrasenña incorrecta')
+    }
   }
 
 
@@ -69,7 +74,7 @@ const LogInScreen = ({ navigation }) => {
         label="Contraseña:"
         onChange={setPassword}
         isSecureEntry={true}
-        error={passwordError}
+        error={passwordError || gralError}
       />
       <TouchableOpacity style={styles.button} onPress={onSubmit}>
         <Text style={styles.buttonText}>Ingresar</Text>
