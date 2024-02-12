@@ -70,7 +70,7 @@ const ImageSelectorScreen = ({ navigation }) => {
         },  1500)
       })
       .catch((error) => {
-        showToast('error', 'Hubo un problema al guardar la foto');
+        showToast('error', 'Hubo un problema al guardar la foto')
         console.error(error)
       });
   }

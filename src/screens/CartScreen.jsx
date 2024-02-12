@@ -1,8 +1,9 @@
 import { FlatList, StyleSheet, TouchableOpacity, View, Text } from 'react-native'
 import CartItem from '../components/CartItem'
 import { useDispatch, useSelector } from 'react-redux'
-import {usePostOrderMutation} from '../services/shopService'
+import { usePostOrderMutation } from '../services/shopService'
 import { clearCart } from '../features/cartSlice '
+import Toast from 'react-native-toast-message'
 
 const CartScreen = () => {
 
@@ -13,9 +14,30 @@ const CartScreen = () => {
 
   const [post, result] = usePostOrderMutation()
 
-  const confirmCart = ()=> {
-    post({total, cartItems, user: 'Leandro Robles', updateAt: Date.now().toLocaleString()})
-    dispatch(clearCart(cartItems))
+  const showToast = (type, message) => {
+    Toast.show({
+      type: type,
+      position: 'bottom',
+      text1: message,
+      visibilityTime:  4000,
+      autoHide: true,
+      topOffset:  30,
+      bottomOffset:  40,
+      text1Style: {
+        textAlign: 'center',
+        fontSize: 15
+      }
+    })
+  }
+
+  const confirmCart = () => {
+    if (total != 0) {
+      post({ total, cartItems, user: 'Leandro Robles', updateAt: Date.now().toLocaleString() })
+      dispatch(clearCart(cartItems))
+      showToast('success', 'Orden de compra enviada!')
+    } else {
+      showToast('error', 'Primero agregue productos al carrito')
+    }
   }
 
   const renderCart = ({ item }) => (
@@ -23,19 +45,22 @@ const CartScreen = () => {
   )
 
   return (
-    <View>
-      <FlatList
-        data={cartItems}
-        renderItem={renderCart}
-        keyExtractor={item => item.id}
-      />
-      <View style={styles.confirmView}>
-        <Text style={styles.total}>Total: ${total} </Text>
-        <TouchableOpacity style={styles.confirmButton} onPress={confirmCart}>
-          <Text style={styles.confirmText}>Confirmar</Text>
-        </TouchableOpacity>
+    <>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
+      <View>
+        <FlatList
+          data={cartItems}
+          renderItem={renderCart}
+          keyExtractor={item => item.id}
+        />
+        <View style={styles.confirmView}>
+          <Text style={styles.total}>Total: ${total} </Text>
+          <TouchableOpacity style={styles.confirmButton} onPress={confirmCart}>
+            <Text style={styles.confirmText}>Confirmar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 
