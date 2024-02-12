@@ -11,6 +11,7 @@ const CartScreen = () => {
 
   const cartItems = useSelector(state => state.cartReducer.items)
   const total = useSelector(state => state.cartReducer.total)
+  const user = useSelector(state => state.authReducer.user)
 
   const [post, result] = usePostOrderMutation()
 
@@ -32,9 +33,10 @@ const CartScreen = () => {
 
   const confirmCart = () => {
     if (total != 0) {
-      post({ total, cartItems, user: 'Leandro Robles', updateAt: Date.now().toLocaleString() })
+      post({ total, cartItems, user, updateAt: Date.now().toLocaleString() })
       dispatch(clearCart(cartItems))
       showToast('success', 'Orden de compra enviada!')
+      console.log(user)
     } else {
       showToast('error', 'Primero agregue productos al carrito')
     }

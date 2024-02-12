@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit"
 import shopReducer from "../features/shopSlice" 
-//shopReducer es shopSlice lo mismo con cartReducer y authReducer renombrado para que coincidan los nomnbres
+//shopReducer es shopSlice lo mismo con cartReducer y authReducer renombrado para que coincidan los nombres
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { shopApi } from "../services/shopService"
 import cartReducer from "../features/cartSlice "
