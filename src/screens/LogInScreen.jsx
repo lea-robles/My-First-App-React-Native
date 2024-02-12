@@ -44,7 +44,6 @@ const LogInScreen = ({ navigation }) => {
     triggerLogIn({ email, password })
     console.log('result: ', result)
     if(result.status == 'rejected') {
-      console.log('Email o contrasenña incorrecta')
       setGralError('Email o contrasenña incorrecta')
     }
   }

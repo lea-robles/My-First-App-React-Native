@@ -1,7 +1,7 @@
-import { Text, View, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { useState, useEffect } from 'react'
 import * as Location from 'expo-location'
-import { MapPreview } from '../components'
+import { MapPreview, SpinnerLoading } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { usePutUserLocationMutation } from '../services/shopService'
 import { setUserLocation } from '../features/authSlice'
@@ -16,7 +16,7 @@ const LocationScreen = () => {
   const [address, setAddress] = useState('')
   const localId = useSelector(state => state.authReducer.localId)
   const dispatch = useDispatch()
-  const [triggerPutUserLocation, result] =  usePutUserLocationMutation()
+  const [triggerPutUserLocation, result] = usePutUserLocationMutation()
 
   useEffect(() => {
     (async () => {
@@ -32,52 +32,49 @@ const LocationScreen = () => {
 
   useEffect(() => {
     (async () => {
-        try {
-            if(location.longitude){
-                const urlReverseGeoCode = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.latitude},${location.longitude}&key=${maps_api_key}`
-                const response = await fetch(urlReverseGeoCode)
-                const data = await response.json()
-                const formattedAddress = await data.results[0].formatted_address
-                setAddress(formattedAddress)
-            }
+      try {
+        if (location.longitude) {
+          const urlReverseGeoCode = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.latitude},${location.longitude}&key=${maps_api_key}`
+          const response = await fetch(urlReverseGeoCode)
+          const data = await response.json()
+          const formattedAddress = await data.results[0].formatted_address
+          setAddress(formattedAddress)
         }
-        catch(error){
-            setError(error.message)
-        }
-    }) ()
-  },[location])
+      }
+      catch (error) {
+        setError(error.message)
+      }
+    })()
+  }, [location])
 
   const onConfirm = () => {
     const locationRefresh = {
-        latitude: location.latitude,
-        longitude: location.longitude,
-        address: address
+      latitude: location.latitude,
+      longitude: location.longitude,
+      address: address
     }
     dispatch(setUserLocation(locationRefresh))
-    triggerPutUserLocation({ location: locationRefresh, localId } )
+    triggerPutUserLocation({ location: locationRefresh, localId })
   }
 
   return (
-      <View style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.textTitle}>Mi ubicación</Text>
       {
         location.latitude
           ?
           <>
-          <Text style={styles.textDate}>
-            Latitud: {location.latitude} || longitud: {location.longitude}
-          </Text>
-          <Text style={styles.textAddress}>Dirección: {address}</Text>
-          <MapPreview location={location}/>
-          <TouchableOpacity style={styles.button} onPress={onConfirm}>
-                <Text style={styles.buttonText}>Actualizar ubicación</Text>
-          </TouchableOpacity>
+            <Text style={styles.textDate}>
+              Latitud: {location.latitude} || longitud: {location.longitude}
+            </Text>
+            <Text style={styles.textAddress}>Dirección: {address}</Text>
+            <MapPreview location={location} />
+            <TouchableOpacity style={styles.button} onPress={onConfirm}>
+              <Text style={styles.buttonText}>Actualizar ubicación</Text>
+            </TouchableOpacity>
           </>
           :
-          <View style={styles.spinnerContainer}>
-            <ActivityIndicator style={styles.spinner} />
-            <Text>Cargando...</Text>
-          </View>
+          <SpinnerLoading/>
       }
     </View>
   )
@@ -87,25 +84,18 @@ export default LocationScreen
 
 const styles = StyleSheet.create({
   container: {
-      alignItems: 'center',
-      marginTop: 20
-  },
-  spinnerContainer: {
-      alignItems: 'center',
-      marginTop: 200
+    alignItems: 'center',
+    marginTop: 20
   },
   textTitle: {
-      marginTop: 10,
-      fontFamily: 'Roboto-bold',
-      fontSize: 25
+    marginTop: 10,
+    fontFamily: 'Roboto-bold',
+    fontSize: 25
   },
   textDate: {
-      marginTop: 25,
-      fontFamily: 'Roboto-light',
-      fontSize: 15
-  },
-  spinner: {
-    margin: 18
+    marginTop: 25,
+    fontFamily: 'Roboto-light',
+    fontSize: 15
   },
   textAddress: {
     marginHorizontal: 5,

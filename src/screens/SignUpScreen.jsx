@@ -26,7 +26,6 @@ const SignUpScreen = ({ navigation }) => {
     try {
       signUpReports.validateSync({ email, password, confirmPassword }, { abortEarly: false })
     } catch (error) {
-      //Al hacer map de error.errors en cada 'case'hace console.log del error correspondiente
       error.errors.map(e => {
         console.log(Object.keys(e)[0])
         const customError = Object.values(e)[0]

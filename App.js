@@ -1,9 +1,10 @@
-import { ActivityIndicator, StyleSheet, Text, View, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 import { useFonts } from 'expo-font'
 import { Provider } from 'react-redux'
 import store from './src/store'
 import MainNavigator from './src/navigation/MainNavigator'
 import { init } from './src/db'
+import { SpinnerLoading } from './src/components'
 
 export default function App() {
 
@@ -19,10 +20,7 @@ export default function App() {
   })
 
   if (!fontLoaded) return (
-    <View style={styles.containerSpinner}>
-      <ActivityIndicator style={styles.loadedSpinner} />
-      <Text>Cargando...</Text>
-    </View>
+    <SpinnerLoading/>
   )
 
   return (
@@ -32,14 +30,3 @@ export default function App() {
     </Provider>
   )
 }
-
-const styles = StyleSheet.create({
-  containerSpinner: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  loadedSpinner: {
-    paddingBottom: 15
-  }
-})

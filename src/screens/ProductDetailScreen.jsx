@@ -1,8 +1,9 @@
-import { Text, View, ActivityIndicator, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useGetProductByIdQuery } from '../services/shopService'
 import { useDispatch } from 'react-redux'
 import { addItem } from '../features/cartSlice '
+import { SpinnerLoading } from '../components'
 
 const ProductDetailScreen = ({ route }) => {
 
@@ -14,7 +15,6 @@ const ProductDetailScreen = ({ route }) => {
   const { data: product, isFetching } = useGetProductByIdQuery(String(productId))
   
   const dispatch = useDispatch()
-  console.log('Datos del producto:', product)
 
   useEffect(() => {
     if (product) {
@@ -54,10 +54,7 @@ const ProductDetailScreen = ({ route }) => {
       {
         isLoading || isFetching
           ?
-          <View>
-            <ActivityIndicator />
-            <Text>Cargando...</Text>
-          </View>
+          <SpinnerLoading/>
           :
           <View>
             <FlatList
