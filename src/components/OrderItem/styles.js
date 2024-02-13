@@ -8,5 +8,12 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderColor: '#ccc'
+    },
+    textDate: {
+        fontFamily: 'Roboto-bold',
+        fontSize: 16,
+    },
+    numbers: {
+        fontFamily: 'Roboto-regular',
     }
 })

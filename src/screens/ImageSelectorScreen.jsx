@@ -20,7 +20,7 @@ const ImageSelectorScreen = ({ navigation }) => {
       type: type,
       position: 'bottom',
       text1: message,
-      visibilityTime:  4000,
+      visibilityTime:  2500,
       autoHide: true,
       topOffset:  30,
       bottomOffset:  40,
@@ -65,20 +65,17 @@ const ImageSelectorScreen = ({ navigation }) => {
     triggerSaveProfilePic({ image, localId })
       .then(() => {
         showToast('success', 'Foto guardada!')
-        setTimeout(() => {
-          navigation.navigate('Perfil');
-        },  1500)
+          navigation.navigate('Perfil')
       })
       .catch((error) => {
         showToast('error', 'Hubo un problema al guardar la foto')
         console.error(error)
-      });
+      })
   }
 
 
   return (
     <>
-    <Toast ref={(ref) => Toast.setRef(ref)} />
     <View style={styles.container}>
       {
         image ?

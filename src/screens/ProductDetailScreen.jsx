@@ -4,11 +4,28 @@ import { useGetProductByIdQuery } from '../services/shopService'
 import { useDispatch } from 'react-redux'
 import { addItem } from '../features/cartSlice '
 import { SpinnerLoading } from '../components'
+import Toast from 'react-native-toast-message'
 
 const ProductDetailScreen = ({ route }) => {
 
   const [productSelect, setProductSelect] = useState({})
   const [isLoading, setIsLoading] = useState(true)
+
+  const showToast = (type, message) => {
+    Toast.show({
+      type: type,
+      position: 'bottom',
+      text1: message,
+      visibilityTime: 1000,
+      autoHide: true,
+      topOffset: 30,
+      bottomOffset: 58,
+      text1Style: {
+        textAlign: 'center',
+        fontSize: 20
+      }
+    })
+  }
 
   const productId = route.params.id
   
@@ -26,6 +43,7 @@ const ProductDetailScreen = ({ route }) => {
   
   const addToCart = () => {
     dispatch(addItem({...productSelect, quantity: 1}))
+    showToast('success', 'Añadido al carrito!')
   }
 
   const renderItem = ({ item }) => (
@@ -35,7 +53,7 @@ const ProductDetailScreen = ({ route }) => {
           style={styles.productImage}
           resizeMode='cover'
           source={{ uri: item.rutaImagen }}
-        />
+          />
       </View>
       <View style={styles.containerText}>
         <Text style={styles.textTitle}>{item.name}</Text>

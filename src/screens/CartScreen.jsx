@@ -20,10 +20,10 @@ const CartScreen = () => {
       type: type,
       position: 'bottom',
       text1: message,
-      visibilityTime:  4000,
+      visibilityTime: 4000,
       autoHide: true,
-      topOffset:  30,
-      bottomOffset:  40,
+      topOffset: 30,
+      bottomOffset: 40,
       text1Style: {
         textAlign: 'center',
         fontSize: 15
@@ -36,7 +36,6 @@ const CartScreen = () => {
       post({ total, cartItems, user, updateAt: Date.now().toLocaleString() })
       dispatch(clearCart(cartItems))
       showToast('success', 'Orden de compra enviada!')
-      console.log(user)
     } else {
       showToast('error', 'Primero agregue productos al carrito')
     }
@@ -47,8 +46,7 @@ const CartScreen = () => {
   )
 
   return (
-    <>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
+    <View>
       <View>
         <FlatList
           data={cartItems}
@@ -62,7 +60,7 @@ const CartScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </>
+    </View>
   )
 }
 

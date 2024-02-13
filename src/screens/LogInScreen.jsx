@@ -24,7 +24,6 @@ const LogInScreen = ({ navigation }) => {
       signUpReports.validateSync({ email, password }, { abortEarly: false })
     } catch (error) {
       error.errors.map(e => {
-        console.log(Object.keys(e)[0])
         const customError = Object.values(e)[0]
         switch (Object.keys(e)[0]) {
           case 'empty_email':
@@ -42,7 +41,6 @@ const LogInScreen = ({ navigation }) => {
       })
     }
     triggerLogIn({ email, password })
-    console.log('result: ', result)
     if(result.status == 'rejected') {
       setGralError('Email o contrasenña incorrecta')
     }
@@ -57,8 +55,6 @@ const LogInScreen = ({ navigation }) => {
         email: result.data.email,
         token: result.data.idToken
       })
-      .then(result => console.log('Usuario insertado: ', result))
-      .catch(error => console.log('Error, usuario no insertado: ', error))
     }
   }, [result])
 
